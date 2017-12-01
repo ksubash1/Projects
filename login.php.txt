@@ -1,0 +1,37 @@
+<?php
+
+
+
+$hostname = 'localhost';        // Your MySQL hostname. Usualy named as 'localhost', so you're NOT necessary to change this even this script has already online on the internet.
+$dbname   = 'classproj'; // Your database name.
+$username = 'root';             // Your database username.
+$password = 'subash';                 // Your database password. If your database has no password, leave it empty.
+
+// Let's connect to host
+mysql_connect($hostname, $username, $password) or DIE('Connection to host is failed, perhaps the service is down!');
+// Select the database
+mysql_select_db($dbname) or DIE('Database name is not available!');
+
+
+// Inialize session
+session_start();
+
+
+// Retrieve username and password from database according to user's input
+$login = mysql_query("SELECT * FROM  WHERE (id= '" . mysql_real_escape_string($_POST['id']) . "') and (password = '" . mysql_real_escape_string($_POST['password']) . "')");
+
+// Check username and password match
+if (mysql_num_rows($login) == 1) {
+// Set username session variablef
+$_SESSION['id'] = $_POST['id'];
+// Jump to secured page
+header('Location: welcome1.php');
+}
+else {
+// Jump to login page
+header('Location: welcomepage.php');
+}
+
+
+
+?>
